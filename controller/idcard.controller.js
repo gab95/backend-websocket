@@ -7,9 +7,16 @@ wss.on("connection", (ws) => {
   console.log("WebSocket client connected");
 });
 
+const live = (req, res) => {
+  res.status(200).json({
+    ok: true,
+    status: "live",
+  });
+};
+
 const sendIdCard = (req, res) => {
   const { idCard } = req.body;
-  
+
   wss.clients.forEach((client) => {
     client.send(idCard);
   });
@@ -20,6 +27,7 @@ const sendIdCard = (req, res) => {
 };
 
 module.exports = {
+  live,
   sendIdCard,
   wss, // Export the WebSocket server instance if needed
 };
